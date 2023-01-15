@@ -32,14 +32,14 @@ exports.signup = async (req, res) => {
       });
 
       const result = user.setRoles(roles);
-      if (result) res.send({ statusText: "User registered successfully!" });
+      if (result) res.send({ status: "User registered successfully!" });
     } else {
       // user has role = 1
       const result = user.setRoles([1]);
-      if (result) res.send({ statusText: "User registered successfully!" });
+      if (result) res.send({ status: "User registered successfully!" });
     }
   } catch (error) {
-    res.status(500).send({ statusText: error.statusText });
+    res.status(200).send({ status: error.message });
   }
 };
 
@@ -47,12 +47,12 @@ exports.signin = async (req, res) => {
   try {
     const user = await User.findOne({
       where: {
-        username: req.body.username,
+        mobile: req.body.mobile,
       },
     });
 
     if (!user) {
-      return res.status(404).send({ statusText: "User Not found." });
+      return res.status(200).send({ status: "User Not found." });
     }
 
     const passwordIsValid = bcrypt.compareSync(
@@ -61,8 +61,8 @@ exports.signin = async (req, res) => {
     );
 
     if (!passwordIsValid) {
-      return res.status(401).send({
-        statusText: "Invalid Password!",
+      return res.status(200).send({
+        status: "Invalid Password!",
       });
     }
 
@@ -78,14 +78,23 @@ exports.signin = async (req, res) => {
 
     req.session.token = token;
 
-    return res.status(200).send({
-      id: user.id,
-      username: user.username,
-      email: user.email,
-      roles: authorities,
-    });
+    return res.status(200).send(
+      {
+        code:200,
+        status:"Success",
+        data:{
+          userData:{
+          id: user.id,
+          username: user.username,
+          email: user.email,
+          mobile: user.mobile,
+          api_key: user.api_key,
+          roles: authorities,
+          }
+        }
+      });
   } catch (error) {
-    return res.status(500).send({ statusText: error.statusText });
+    return res.status(200).send({ status: error.message });
   }
 };
 
@@ -93,7 +102,7 @@ exports.signout = async (req, res) => {
   try {
     req.session = null;
     return res.status(200).send({
-      statusText: "You've been signed out!"
+      status: "You've been signed out!"
     });
   } catch (err) {
     this.next(err);

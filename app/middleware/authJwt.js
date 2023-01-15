@@ -7,15 +7,15 @@ verifyToken = (req, res, next) => {
   let token = req.session.token;
 
   if (!token) {
-    return res.status(403).send({
-      statusText: "No token provided!",
+    return res.status(200).send({
+      status: "No token provided!",
     });
   }
 
   jwt.verify(token, config.secret, (err, decoded) => {
     if (err) {
-      return res.status(401).send({
-        statusText: "Unauthorized!",
+      return res.status(200).send({
+        status: "Unauthorized!",
       });
     }
     req.userId = decoded.id;
@@ -34,12 +34,12 @@ isAdmin = async (req, res, next) => {
       }
     }
 
-    return res.status(403).send({
-      statusText: "Require Admin Role!",
+    return res.status(200).send({
+      status: "Require Admin Role!",
     });
   } catch (error) {
-    return res.status(500).send({
-      statusText: "Unable to validate User role!",
+    return res.status(200).send({
+      status: "Unable to validate User role!",
     });
   }
 };
@@ -55,12 +55,12 @@ isModerator = async (req, res, next) => {
       }
     }
 
-    return res.status(403).send({
-      statusText: "Require Moderator Role!",
+    return res.status(200).send({
+      status: "Require Moderator Role!",
     });
   } catch (error) {
-    return res.status(500).send({
-      statusText: "Unable to validate Moderator role!",
+    return res.status(200).send({
+      status: "Unable to validate Moderator role!",
     });
   }
 };
@@ -80,12 +80,12 @@ isModeratorOrAdmin = async (req, res, next) => {
       }
     }
 
-    return res.status(403).send({
-      statusText: "Require Moderator or Admin Role!",
+    return res.status(200).send({
+      status: "Require Moderator or Admin Role!",
     });
   } catch (error) {
-    return res.status(500).send({
-      statusText: "Unable to validate Moderator or Admin role!",
+    return res.status(200).send({
+      status: "Unable to validate Moderator or Admin role!",
     });
   }
 };

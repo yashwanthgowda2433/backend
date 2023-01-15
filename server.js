@@ -13,7 +13,7 @@ app.use(express.json());
 
 // app.use(express.bodyParser());
 app.use(function(req, res, next) {
-  res.header('Access-Control-Allow-Origin', 'http://localhost:8082');
+  res.header('Access-Control-Allow-Origin', 'http://backend.saifacilities.com:8082/');
   res.header(
     'Access-Control-Allow-Headers',
     'Origin, X-Requested-With, Content-Type, Accept'
@@ -45,7 +45,7 @@ db.sequelize.sync();
 
 // simple route
 app.get("/", (req, res) => {
-  res.json({ message: "Welcome to application." });
+  res.json({ status: "Welcome to application." });
 });
 
 // routes
