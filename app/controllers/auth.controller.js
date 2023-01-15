@@ -32,14 +32,14 @@ exports.signup = async (req, res) => {
       });
 
       const result = user.setRoles(roles);
-      if (result) res.send({ message: "User registered successfully!" });
+      if (result) res.send({ statusText: "User registered successfully!" });
     } else {
       // user has role = 1
       const result = user.setRoles([1]);
-      if (result) res.send({ message: "User registered successfully!" });
+      if (result) res.send({ statusText: "User registered successfully!" });
     }
   } catch (error) {
-    res.status(500).send({ message: error.message });
+    res.status(500).send({ statusText: error.statusText });
   }
 };
 
@@ -52,7 +52,7 @@ exports.signin = async (req, res) => {
     });
 
     if (!user) {
-      return res.status(404).send({ message: "User Not found." });
+      return res.status(404).send({ statusText: "User Not found." });
     }
 
     const passwordIsValid = bcrypt.compareSync(
@@ -62,7 +62,7 @@ exports.signin = async (req, res) => {
 
     if (!passwordIsValid) {
       return res.status(401).send({
-        message: "Invalid Password!",
+        statusText: "Invalid Password!",
       });
     }
 
@@ -85,7 +85,7 @@ exports.signin = async (req, res) => {
       roles: authorities,
     });
   } catch (error) {
-    return res.status(500).send({ message: error.message });
+    return res.status(500).send({ statusText: error.statusText });
   }
 };
 
@@ -93,7 +93,7 @@ exports.signout = async (req, res) => {
   try {
     req.session = null;
     return res.status(200).send({
-      message: "You've been signed out!"
+      statusText: "You've been signed out!"
     });
   } catch (err) {
     this.next(err);

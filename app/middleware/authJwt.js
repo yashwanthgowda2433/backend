@@ -8,14 +8,14 @@ verifyToken = (req, res, next) => {
 
   if (!token) {
     return res.status(403).send({
-      message: "No token provided!",
+      statusText: "No token provided!",
     });
   }
 
   jwt.verify(token, config.secret, (err, decoded) => {
     if (err) {
       return res.status(401).send({
-        message: "Unauthorized!",
+        statusText: "Unauthorized!",
       });
     }
     req.userId = decoded.id;
@@ -35,11 +35,11 @@ isAdmin = async (req, res, next) => {
     }
 
     return res.status(403).send({
-      message: "Require Admin Role!",
+      statusText: "Require Admin Role!",
     });
   } catch (error) {
     return res.status(500).send({
-      message: "Unable to validate User role!",
+      statusText: "Unable to validate User role!",
     });
   }
 };
@@ -56,11 +56,11 @@ isModerator = async (req, res, next) => {
     }
 
     return res.status(403).send({
-      message: "Require Moderator Role!",
+      statusText: "Require Moderator Role!",
     });
   } catch (error) {
     return res.status(500).send({
-      message: "Unable to validate Moderator role!",
+      statusText: "Unable to validate Moderator role!",
     });
   }
 };
@@ -81,11 +81,11 @@ isModeratorOrAdmin = async (req, res, next) => {
     }
 
     return res.status(403).send({
-      message: "Require Moderator or Admin Role!",
+      statusText: "Require Moderator or Admin Role!",
     });
   } catch (error) {
     return res.status(500).send({
-      message: "Unable to validate Moderator or Admin role!",
+      statusText: "Unable to validate Moderator or Admin role!",
     });
   }
 };
