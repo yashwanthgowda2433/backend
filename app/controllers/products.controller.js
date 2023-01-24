@@ -64,4 +64,43 @@ exports.getNewProducts = async (req, res) => {
        res.status(200).send({ status: error.message });
     }
   };
+
+
+  exports.getPopularProducts = async (req, res) => {
+  
+ 
+    try {
+      const result = await Products.findAll({
+        limit: 5,
+        order: [
+            ['id', 'DESC'],
+        ],
+      });
+  
+      
+      if (result) res.status(200).send({ code:200, status: "success", products: result});
+      
+    } catch (error) {
+       res.status(200).send({ status: error.message });
+    }
+  };
+
+  exports.getProductList = async (req, res) => {
+    var category_id = req.body.category_id
+ 
+    try {
+      const result = await Products.findAll({
+        where:{category_id: category_id },
+        order: [
+            ['id', 'DESC'],
+        ],
+      });
+  
+      
+      if (result) res.status(200).send({ code:200, status: "success", products: result});
+      
+    } catch (error) {
+       res.status(200).send({ status: error.message });
+    }
+  };
   
